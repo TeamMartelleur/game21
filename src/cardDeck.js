@@ -1,6 +1,10 @@
 /**
- * Skapar ett objekt men namn "cardDeck" som funger som en
- * virtuell kortlek.
+ * @author Joel Martelleur
+ * /
+
+/**
+ * Skapar ett objekt cardDeck.
+ * @classdesc cardDeck beskriver en kortlek.
  */
 let cardDeck = {
   // korten är sparade i en array "_cards"

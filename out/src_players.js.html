@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/players.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/players.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @author Joel Martelleur
  * /
 
@@ -9,15 +37,17 @@
 const cardDeck = require('./cardDeck.js')
 
 /**
- * Skapare en klass "Dealer"
- * @classdesc Dealer är en class som beskriver en dealer i spelet 21
+ * Skapare en klass "Player"
+ * @classdesc Player är en class som beskriver en spelare i spelet 21
  */
-class Dealer {
+class Player {
   constructor (name) {
     this._name = name
     this._hand = []
     this._handValue = 0
-    this._stopValue = 15
+    this._stopValue = 18
+    this._waitingForDealer = false
+    this._waitingForPlayer = false
     this._winingHands = 0
     this._losingHands = 0
   }
@@ -37,17 +67,23 @@ class Dealer {
   set handValue (value) {
     this._handValue = value
   }
-  get stopValue () {
-    return this._stopValue
-  }
-  set stopValue (value) {
-    this._stopValue = value
-  }
   get hand () {
     return this._hand
   }
   set hand (value) {
     this._hand = value
+  }
+  get waitingForDealer () {
+    return this._waitingForDealer
+  }
+  set waitingForDealer (value) {
+    this._waitingForDealer = value
+  }
+  get waitingForPlayer () {
+    return this._waitingForPlayer
+  }
+  set waitingForPlayer (value) {
+    this._waitingForPlayer = value
   }
   get winingHands () {
     return this._winingHands
@@ -61,7 +97,13 @@ class Dealer {
   set losingHands (value) {
     this._losingHands = value
   }
-
+  /**
+   * @method stopHand() stoppar handen
+   */
+  stopHand () {
+    this.waitingForDealer = true
+    this._waitingForPlayer = true
+  }
   /**
    * metod som använder modulen "cardDeck.js" ocr returnerar ett object med data till spelet 21
    * @method takeCard() stoppar handen
@@ -72,11 +114,15 @@ class Dealer {
     let valuesCard = {
       _reset: false,
       _copyHand: this.hand.slice(),
-      _copyHandValue: this.handValue
+      _copyHandValue: this.handValue,
+      _copyWaitingForDealer: this.waitingForDealer,
+      _copyWaitingForPlayer: this.waitingForPlayer
     }
     // Skapar en while-loop som kommer iterera tills handen är färdigspelad, "valuesCard._reset === false".
     while (valuesCard._reset === false) {
       if (valuesCard._copyHandValue >= this._stopValue) {
+        valuesCard._copyWaitingForDealer = true
+        valuesCard._copyWaitingForPlayer = true
         valuesCard._reset = true
       } else {
       // Genererar ett nummer "randomNuber"  [0-51] för att symbolera en kortlek
@@ -123,6 +169,7 @@ class Dealer {
           valuesCard._copyHandValue += 12
         } else if (cardDeck.cards[randomNumber][0] === 'K') {
           valuesCard._copyHandValue += 13
+        // Om kortet är ett A så betämms värdet tii 14 men kan ändras senare
         } else {
           valuesCard._copyHandValue += 14
           let map = valuesCard._copyHand.map(element => {
@@ -142,7 +189,7 @@ class Dealer {
         }
         // skapae en serie av kontrollflöden som kan ändra värdena på essen om
         // spelaren är "busted"
-        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AS(value=14)')) {
+        if (valuesCard._copyHandValue > 21 &amp;&amp; valuesCard._copyHand.includes('AS(value=14)')) {
           valuesCard._copyHandValue += -13
           let map = valuesCard._copyHand.map(element => {
             if (element === 'AS(value=14)') {
@@ -153,7 +200,7 @@ class Dealer {
           })
           valuesCard._copyHand = map
         }
-        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AH(value=14)')) {
+        if (valuesCard._copyHandValue > 21 &amp;&amp; valuesCard._copyHand.includes('AH(value=14)')) {
           valuesCard._copyHandValue += -13
           let map = valuesCard._copyHand.map(element => {
             if (element === 'AH(value=14)') {
@@ -164,7 +211,7 @@ class Dealer {
           })
           valuesCard._copyHand = map
         }
-        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AD(value=14)')) {
+        if (valuesCard._copyHandValue > 21 &amp;&amp; valuesCard._copyHand.includes('AD(value=14)')) {
           valuesCard._copyHandValue += -13
           let map = valuesCard._copyHand.map(element => {
             if (element === 'AD(value=14)') {
@@ -175,7 +222,7 @@ class Dealer {
           })
           valuesCard._copyHand = map
         }
-        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AC(value=14)')) {
+        if (valuesCard._copyHandValue > 21 &amp;&amp; valuesCard._copyHand.includes('AC(value=14)')) {
           valuesCard._copyHandValue += -13
           let map = valuesCard._copyHand.map(element => {
             if (element === 'AC(value=14)') {
@@ -186,14 +233,23 @@ class Dealer {
           })
           valuesCard._copyHand = map
         }
-        console.log(valuesCard._copyHand)
         // Kontrollflöde som betämer om vi ska vara kvar i While-loopen "while (reset === false)"
-        if (this.handValue === 21) {
-          valuesCard._reset = true
-        } else if (valuesCard._copyHandValue < 21) {
+        if (valuesCard._copyHandValue &lt; 21 &amp;&amp; valuesCard._copyHand.length &lt; 5) {
           valuesCard._reset = false
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = false
+        } else if (this.handValue === 21) {
+          valuesCard._reset = true
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = true
+        } else if (valuesCard._copyHandValue &lt; 21 &amp;&amp; valuesCard._copyHand.length === 5) {
+          valuesCard._reset = true
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = true
         } else {
           valuesCard._reset = true
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = true
         }
       }
     }
@@ -201,10 +257,36 @@ class Dealer {
   }
 }
 /*
-let testPlayer = new Dealer('testPlayer')
+let testPlayer = new Player('testPlayer')
 console.log(testPlayer)
 console.log(testPlayer.takeCard())
 console.log(testPlayer.takeCard())
 console.log(testPlayer)
 */
-module.exports = Dealer
+/**
+ * Exporterra modulen "Player"
+ */
+module.exports = Player
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-cardDeck%25252520beskriver%25252520en%25252520kortlek.html">cardDeck beskriver en kortlek</a></li><li><a href="module-Dealer%2520beskriver%2520en%2520dealer%2520i%2520spelet%252021.html">Dealer beskriver en dealer i spelet 21</a></li><li><a href="module-Player%2520beskriver%2520en%2520spelare%2520i%2520spelet%252021.html">Player beskriver en spelare i spelet 21</a></li></ul><h3>Classes</h3><ul><li><a href="module-cardDeck%2520beskriver%2520en%2520kortlek-Dealer.html">Dealer</a></li><li><a href="module-cardDeck%2520beskriver%2520en%2520kortlek-Player.html">Player</a></li><li><a href="module-Dealer%2520beskriver%2520en%2520dealer%2520i%2520spelet%252021-Table.html">Table</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cardDeck">cardDeck</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Oct 06 2019 11:02:31 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

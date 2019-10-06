@@ -1,4 +1,32 @@
-// Problem som måste lösas
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Problem som måste lösas
 // 1. Ska "ess" ska kunna byta värde från på fler sätt än 14 till 1
 // 2. ska jag slå ihop modulerna dealer och player?
 // 3. kan jag få spelet att returner för varje kort?
@@ -55,7 +83,7 @@ class Table {
    * @returns {thisplayers} array med element av typen Player
    * */
   activatePlayers () {
-    for (let i = 0; i < this.players.length; i++) {
+    for (let i = 0; i &lt; this.players.length; i++) {
       this.players[i] = new Player(this.players[i])
     }
     return this.players
@@ -69,7 +97,7 @@ class Table {
   roundOfPlays (number = 10) {
     let winingHandsPlayer = []
     let losingHandsPlayer = []
-    for (let i = 0; i < this.numberOfPlayers; i++) {
+    for (let i = 0; i &lt; this.numberOfPlayers; i++) {
       winingHandsPlayer.push(this.players[i].winingHands)
       losingHandsPlayer.push(this.players[i].winingHands)
     }
@@ -78,24 +106,24 @@ class Table {
     let currentRound = this._round
     let resultTable = []
     // itererar så länge currentRound är mindre än number + 1
-    while (currentRound < (number + 1)) {
+    while (currentRound &lt; (number + 1)) {
       let playersWaitingForDealer = []
       let playersHandvalue = []
       let currentCard = []
       // fyller i arrayen "currentCard" med  KOPIOR av objecten somm returneras av metoden takeCard
       // från modulen "players.js".
       // Detta görs varje gång när while-loopen körs så att spelarna får nya kort
-      for (let i = 0; i < this.numberOfPlayers; i++) {
+      for (let i = 0; i &lt; this.numberOfPlayers; i++) {
         currentCard.push(Object.create(this.players[i].takeCard()))
       }
       // fyller i arrayen "playersWaitingForDEaler" med värdena från propertyn "_copyWaitingForDealer"
       // av objekten som finns i arrayen "currenCard"
-      for (let i = 0; i < this.numberOfPlayers; i++) {
+      for (let i = 0; i &lt; this.numberOfPlayers; i++) {
         playersWaitingForDealer.push(currentCard[i]._copyWaitingForDealer)
       }
       // fyller i arrayen "playersWaitingForDEaler" med värdena från propertyn "_copyHand"
       // av objekten som finns i arrayen "currenCard"
-      for (let i = 0; i < this.numberOfPlayers; i++) {
+      for (let i = 0; i &lt; this.numberOfPlayers; i++) {
         playersHandvalue.push(currentCard[i]._copyHandValue)
       }
       // Om alla element i "playersWaitingForDealer" är === "false"
@@ -108,8 +136,8 @@ class Table {
         resultTable.push(`1. RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}`)
         // sakpar ett object som jag sedan fyller i med reultat från spelare och dalern från
         // den specifika rundan.
-        for (let i = 0; i < this.numberOfPlayers; i++) {
-          if (currentCard[i]._copyHandValue <= 21) {
+        for (let i = 0; i &lt; this.numberOfPlayers; i++) {
+          if (currentCard[i]._copyHandValue &lt;= 21) {
             winingHandsPlayer[i]++
             losingHandsDealer++
           } else {
@@ -138,12 +166,12 @@ class Table {
         resultTable.push('2.NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
         resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
         resultTable.push(`2. RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}`)
-        for (let i = 0; i < this.numberOfPlayers; i++) {
+        for (let i = 0; i &lt; this.numberOfPlayers; i++) {
           if (currentCard[i]._copyWaitingForDealer === true) {
             if (currentCardDealer[0]._copyHandValue > 21) {
               winingHandsPlayer[i]++
               losingHandsDealer++
-            } else if (currentCardDealer[0]._copyHandValue <= 21 && currentCardDealer[0]._copyHandValue >= currentCard[i]._copyHandValue) {
+            } else if (currentCardDealer[0]._copyHandValue &lt;= 21 &amp;&amp; currentCardDealer[0]._copyHandValue >= currentCard[i]._copyHandValue) {
               winingHandsDealer++
               losingHandsPlayer[i]++
             } else {
@@ -151,7 +179,7 @@ class Table {
               winingHandsPlayer[i]++
             }
           } else {
-            if (currentCard[i]._copyHandValue <= 21) {
+            if (currentCard[i]._copyHandValue &lt;= 21) {
               winingHandsPlayer[i]++
               losingHandsDealer++
             } else {
@@ -196,3 +224,26 @@ rl.question('What do you think about the game? ', (answer) => {
   console.log(`Thank you for your valuable feedback!`)
   rl.close()
 })
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-cardDeck%25252520beskriver%25252520en%25252520kortlek.html">cardDeck beskriver en kortlek</a></li><li><a href="module-Dealer%2520beskriver%2520en%2520dealer%2520i%2520spelet%252021.html">Dealer beskriver en dealer i spelet 21</a></li><li><a href="module-Player%2520beskriver%2520en%2520spelare%2520i%2520spelet%252021.html">Player beskriver en spelare i spelet 21</a></li></ul><h3>Classes</h3><ul><li><a href="module-cardDeck%2520beskriver%2520en%2520kortlek-Dealer.html">Dealer</a></li><li><a href="module-cardDeck%2520beskriver%2520en%2520kortlek-Player.html">Player</a></li><li><a href="module-Dealer%2520beskriver%2520en%2520dealer%2520i%2520spelet%252021-Table.html">Table</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cardDeck">cardDeck</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Oct 06 2019 11:02:31 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

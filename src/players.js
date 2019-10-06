@@ -1,9 +1,16 @@
 /**
+ * @author Joel Martelleur
+ * /
+
+/**
  * Importerar modulen "cardDeck"
+ * @module cardDeck beskriver en kortlek
  */
 const cardDeck = require('./cardDeck.js')
+
 /**
  * Skapare en klass "Player"
+ * @classdesc Player är en class som beskriver en spelare i spelet 21
  */
 class Player {
   constructor (name) {
@@ -62,13 +69,18 @@ class Player {
   set losingHands (value) {
     this._losingHands = value
   }
-  // metod som stoppar handen
+  /**
+   * @method stopHand() stoppar handen
+   */
   stopHand () {
     this.waitingForDealer = true
     this._waitingForPlayer = true
   }
-  // metod som tar ett kort från modulen "cardDEck.js"
-  // och returnerar spelet 21
+  /**
+   * metod som använder modulen "cardDeck.js" ocr returnerar ett object med data till spelet 21
+   * @method takeCard() stoppar handen
+   * @returns {valuesCard}
+   */
   takeCard () {
     // skapar ett objekt ,"valuesCard", som ska returneras i slutet av funktionen
     let valuesCard = {
