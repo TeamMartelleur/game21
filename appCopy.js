@@ -2,8 +2,8 @@
 // 1. måste lösa problemet med att ett "ess" ska kunna byta värde från 14 till 1 så att spelaren inte blir "busted"
 
 // const cardDeck = require('./src/cardDeck.js')
-const Player = require('./src/playersPureFunction.js')
-const Dealer = require('./src/dealerPureFunction.js')
+const Player = require('./src/players.js')
+const Dealer = require('./src/dealer.js')
 /**
  * skapar en class "Table" där man kan spela spelet 21
  * med ett bestämt antal spelare

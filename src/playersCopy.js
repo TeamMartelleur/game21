@@ -70,16 +70,20 @@ class Player {
   // metod som tar ett kort från modulen "cardDEck.js"
   // och returnerar spelet 21
   takeCard () {
-    let reset = false
-    let copyHand = this.hand.slice()
-    let copyHandValue = this.handValue
-    let copyWaitingForDealer = this.waitingForDealer
-    let copyWaitingForPlayer = this.waitingForPlayer
-    while (reset === false) {
-      if (copyHandValue >= this._stopValue) {
-        copyWaitingForDealer = true
-        copyWaitingForPlayer = true
-        reset = true
+    // skapar ett objekt ,"valuesCard", som ska returneras i slutet av funktionen
+    let valuesCard = {
+      _reset: false,
+      _copyHand: this.hand.slice(),
+      _copyHandValue: this.handValue,
+      _copyWaitingForDealer: this.waitingForDealer,
+      _copyWaitingForPlayer: this.waitingForPlayer
+    }
+    // Skapar en while-loop som kommer iterera tills handen är färdigspelad, "valuesCard._reset === false".
+    while (valuesCard._reset === false) {
+      if (valuesCard._copyHandValue >= this._stopValue) {
+        valuesCard._copyWaitingForDealer = true
+        valuesCard._copyWaitingForPlayer = true
+        valuesCard._reset = true
       } else {
       // Genererar ett nummer "randomNuber"  [0-51] för att symbolera en kortlek
       // Detta nummer kan med hjälp av while-loopen aldrig vara lika med ett tidgare
@@ -88,109 +92,136 @@ class Player {
         while (cardDeck.cardsTaken.includes(cardDeck.cards[randomNumber])) {
           randomNumber = Math.floor(Math.random() * cardDeck.cards.length)
         }
-        // Ett kontrollflöde som uppdaterar handens
-        // nuvarande värde
-        if (cardDeck.cards[randomNumber][0] === '2') {
-          copyHandValue += 2
-        } else if (cardDeck.cards[randomNumber][0] === '3') {
-          copyHandValue += 3
-        } else if (cardDeck.cards[randomNumber][0] === '4') {
-          copyHandValue += 4
-        } else if (cardDeck.cards[randomNumber][0] === '5') {
-          copyHandValue += 5
-        } else if (cardDeck.cards[randomNumber][0] === '6') {
-          copyHandValue += 6
-        } else if (cardDeck.cards[randomNumber][0] === '7') {
-          copyHandValue += 7
-        } else if (cardDeck.cards[randomNumber][0] === '8') {
-          copyHandValue += 8
-        } else if (cardDeck.cards[randomNumber][0] === '9') {
-          copyHandValue += 9
-        } else if (cardDeck.cards[randomNumber][0] === '1') {
-          copyHandValue += 10
-        } else if (cardDeck.cards[randomNumber][0] === 'J') {
-          copyHandValue += 11
-        } else if (cardDeck.cards[randomNumber][0] === 'Q') {
-          copyHandValue += 12
-        } else if (cardDeck.cards[randomNumber][0] === 'K') {
-          copyHandValue += 13
-        // Om kortet är ett A så höjs hanvärdet med 1 om handvärtet är 8 eller högre.
-        // om handvärte är lägre än 8 så höjs handvärdet med 14.
-        } else {
-          if (copyHandValue >= 8) {
-            copyHandValue += 1
-          } else {
-            copyHandValue += 14
-          } // måste lösa problemet att A måste kunnas ändras om efter ett val
-        }
-        // returnerar returnerar spelet 21 och blandar om kortleken eftersom
-        // endast ett kort finns kvar
+        // kontrolfölde som blandar om kortleken om endast ett kort finns kvar, "cardDeck.cardsTaken.length === 51", och
+        // sedan pushar arrayen "copyHand" med ett nytt kort
+        // om fler kort finns kvar så pushas arrayen "copyHand" med ett nytt kort direkt.
         if (cardDeck.cardsTaken.length === 51) {
           cardDeck.cardsTaken = []
           cardDeck.cardsTaken.push(cardDeck.cards[randomNumber])
-          copyHand.push(cardDeck.cards[randomNumber])
-          if (copyHandValue < 21 && copyHand.length < 5) {
-            reset = false
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = false
-          } else if (this.handValue === 21) {
-            reset = true
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = true
-          } else if (copyHandValue < 21 && copyHand.length === 5) {
-            reset = true
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = true
-          } else {
-            reset = true
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = true
-          }
-        // returnerar returnerar spelet 21 men blandar inte om
-        // kortleken eftersom fler än ett kort finns kvar att ta.
+          valuesCard._copyHand.push(cardDeck.cards[randomNumber])
         } else {
           cardDeck.cardsTaken.push(cardDeck.cards[randomNumber])
-          copyHand.push(cardDeck.cards[randomNumber])
-          if (copyHandValue < 21 && copyHand.length < 5) {
-            reset = false
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = false
-          } else if (copyHandValue === 21) {
-            reset = true
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = true
-          } else if (copyHandValue < 21 && copyHand.length === 5) {
-            reset = true
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = true
-          } else {
-            reset = true
-            copyWaitingForDealer = false
-            copyWaitingForPlayer = true
-          }
+          valuesCard._copyHand.push(cardDeck.cards[randomNumber])
+        }
+        // Ett kontrollflöde som uppdaterar spelhandens, "valuesCard._handValue",
+        // nuvarande värde
+        if (cardDeck.cards[randomNumber][0] === '2') {
+          valuesCard._copyHandValue += 2
+        } else if (cardDeck.cards[randomNumber][0] === '3') {
+          valuesCard._copyHandValue += 3
+        } else if (cardDeck.cards[randomNumber][0] === '4') {
+          valuesCard._copyHandValue += 4
+        } else if (cardDeck.cards[randomNumber][0] === '5') {
+          valuesCard._copyHandValue += 5
+        } else if (cardDeck.cards[randomNumber][0] === '6') {
+          valuesCard._copyHandValue += 6
+        } else if (cardDeck.cards[randomNumber][0] === '7') {
+          valuesCard._copyHandValue += 7
+        } else if (cardDeck.cards[randomNumber][0] === '8') {
+          valuesCard._copyHandValue += 8
+        } else if (cardDeck.cards[randomNumber][0] === '9') {
+          valuesCard._copyHandValue += 9
+        } else if (cardDeck.cards[randomNumber][0] === '1') {
+          valuesCard._copyHandValue += 10
+        } else if (cardDeck.cards[randomNumber][0] === 'J') {
+          valuesCard._copyHandValue += 11
+        } else if (cardDeck.cards[randomNumber][0] === 'Q') {
+          valuesCard._copyHandValue += 12
+        } else if (cardDeck.cards[randomNumber][0] === 'K') {
+          valuesCard._copyHandValue += 13
+        } else {
+          valuesCard._copyHandValue += 14
+          let map = valuesCard._copyHand.map(element => {
+            if (element === 'AS') {
+              return 'AS(value=14)'
+            } else if (element === 'AH') {
+              return 'AH(value=14)'
+            } else if (element === 'AD') {
+              return 'AD(value=14)'
+            } else if (element === 'AC') {
+              return 'AH(value=14)'
+            } else {
+              return element
+            }
+          })
+          valuesCard._copyHand = map
+        }
+        // skapae en serie av kontrollflöden som kan ändra värdena på essen om
+        // spelaren är "busted"
+        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AS(value=14)')) {
+          valuesCard._copyHandValue += -13
+          let map = valuesCard._copyHand.map(element => {
+            if (element === 'AS(value=14)') {
+              return 'AS(value=1)'
+            } else {
+              return element
+            }
+          })
+          valuesCard._copyHand = map
+        }
+        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AH(value=14)')) {
+          valuesCard._copyHandValue += -13
+          let map = valuesCard._copyHand.map(element => {
+            if (element === 'AH(value=14)') {
+              return 'AH(value=1)'
+            } else {
+              return element
+            }
+          })
+          valuesCard._copyHand = map
+        }
+        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AD(value=14)')) {
+          valuesCard._copyHandValue += -13
+          let map = valuesCard._copyHand.map(element => {
+            if (element === 'AD(value=14)') {
+              return 'AD(value=1)'
+            } else {
+              return element
+            }
+          })
+          valuesCard._copyHand = map
+        }
+        if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AC(value=14)')) {
+          valuesCard._copyHandValue += -13
+          let map = valuesCard._copyHand.map(element => {
+            if (element === 'AC(value=14)') {
+              return 'AC(value=1)'
+            } else {
+              return element
+            }
+          })
+          valuesCard._copyHand = map
+        }
+        console.log(valuesCard._copyHand)
+        // Kontrollflöde som betämer om vi ska vara kvar i While-loopen "while (reset === false)"
+        if (valuesCard._copyHandValue < 21 && valuesCard._copyHand.length < 5) {
+          valuesCard._reset = false
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = false
+        } else if (this.handValue === 21) {
+          valuesCard._reset = true
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = true
+        } else if (valuesCard._copyHandValue < 21 && valuesCard._copyHand.length === 5) {
+          valuesCard._reset = true
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = true
+        } else {
+          valuesCard._reset = true
+          valuesCard._copyWaitingForDealer = false
+          valuesCard._copyWaitingForPlayer = true
         }
       }
     }
-    return {
-      _reset: reset,
-      _copyHand: copyHand,
-      _copyHandValue: copyHandValue,
-      _copyWaitingForDealer: copyWaitingForDealer,
-      _copyWaitingForPlayer: copyWaitingForPlayer
-    }
+    return valuesCard
   }
 }
-/*
+
 let testPlayer = new Player('testPlayer')
 console.log(testPlayer)
-console.log(testPlayer.takeCard()._copyHand)
-console.log(testPlayer.takeCard())
-console.log(testPlayer.takeCard())
-console.log(testPlayer.takeCard())
 console.log(testPlayer.takeCard())
 console.log(testPlayer.takeCard())
 console.log(testPlayer)
-*/
 
 /**
  * Exporterra modulen "Player"

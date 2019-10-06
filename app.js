@@ -1,6 +1,8 @@
 // Problem som måste lösas
-// 1. måste lösa problemet med att ett "ess" ska kunna byta värde från 14 till 1 så att spelaren inte blir "busted"
-
+// 1. Ska "ess" ska kunna byta värde från på fler sätt än 14 till 1
+// 2. ska jag slå ihop modulerna dealer och player?
+// 3. kan jag få spelet att returner för varje kort?
+// 4. Tydligare resultat
 // const cardDeck = require('./src/cardDeck.js')
 const Player = require('./src/players.js')
 const Dealer = require('./src/dealer.js')
@@ -64,7 +66,7 @@ class Table {
         currentCard.push(Object.create(this.players[i].takeCard()))
       }
       // fyller i arrayen "playersWaitingForDEaler" med värdena från propertyn "_copyWaitingForDealer"
-      // av objekten som finns i arrayen "currentCard"
+      // av objekten som finns i arrayen "currenCard"
       for (let i = 0; i < this.numberOfPlayers; i++) {
         playersWaitingForDealer.push(currentCard[i]._copyWaitingForDealer)
       }
@@ -134,7 +136,7 @@ class Table {
               winingHandsDealer++
             }
           }
-          resultTable.push(`1. Name of player: ${this.players[i].name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
+          resultTable.push(`2. Name of player: ${this.players[i].name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
         }
         resultTable.push(`2. Name of dealer: ${this.dealer.name}. Cards on table: ${currentCardDealer[0]._copyHand}. Value of cards: ${currentCardDealer[0]._copyHandValue}. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
         currentRound++
@@ -148,8 +150,25 @@ class Table {
  * Skapar ett nytt object "Table" med namn "table1"
  * och skapar objects "Player" med metoden "playerOnTable"
  */
-let table1 = new Table(['joel', 'erika', 'anders'])
+let table1 = new Table(['joel', 'Christoffer', 'anders'])
 table1.activatePlayers()
 console.log(table1)
-console.log(table1.roundOfPlays(7))
+console.log(table1.roundOfPlays(5))
 console.log(table1)
+
+/**
+ * Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
+ * Sedan avslutas det
+ * */
+const readline = require('readline')
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+
+rl.question('What do you think about the game? ', (answer) => {
+  // TODO: Log the answer in a database
+  console.log(`Thank you for your valuable feedback: ${answer}`)
+  rl.close()
+})
