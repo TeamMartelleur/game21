@@ -67,7 +67,7 @@ class Dealer {
    * @method takeCard() stoppar handen
    * @returns {valuesCard}
    */
-  takeCard () {
+  takeCards () {
     // skapar ett objekt ,"valuesCard", som ska returneras i slutet av funktionen
     let valuesCard = {
       _reset: false,

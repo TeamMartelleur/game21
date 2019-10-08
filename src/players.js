@@ -13,11 +13,11 @@ const cardDeck = require('./cardDeck.js')
  * @classdesc Player är en class som beskriver en spelare i spelet 21
  */
 class Player {
-  constructor (name) {
+  constructor (name, stopValue) {
     this._name = name
     this._hand = []
     this._handValue = 0
-    this._stopValue = 18
+    this._stopValue = stopValue
     this._waitingForDealer = false
     this._waitingForPlayer = false
     this._winingHands = 0
@@ -70,19 +70,12 @@ class Player {
     this._losingHands = value
   }
   /**
-   * @method stopHand() stoppar handen
-   */
-  stopHand () {
-    this.waitingForDealer = true
-    this._waitingForPlayer = true
-  }
-  /**
    * metod som använder modulen "cardDeck.js" ocr returnerar ett object med data till spelet 21
    * @method takeCard() stoppar handen
    * @returns {valuesCard}
    */
-  takeCard () {
-    // skapar ett objekt ,"valuesCard", som ska returneras i slutet av funktionen
+  takeCards () {
+    // skapar ett objekt ,"valuesCard", som returneras i slutet av funktionen
     let valuesCard = {
       _reset: false,
       _copyHand: this.hand.slice(),

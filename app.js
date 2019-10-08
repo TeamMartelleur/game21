@@ -26,8 +26,9 @@ const Dealer = require('./src/dealer.js')
  * @classdesc beskriver ett bord där man spelar spelet 21
  */
 class Table {
-  constructor (names) {
+  constructor (names = ['joel', 'Christoffer', 'anders'], stopValues = [14, 16, 18]) {
     this._players = names
+    this._stopValues = stopValues
     this._numberOfPlayers = this._players.length
     this._dealer = new Dealer('Devil')
     this._round = 1
@@ -50,13 +51,19 @@ class Table {
   set numberOfPlayers (value) {
     this._numberOfPlayers = value
   }
+  get stopValues () {
+    return this._stopValues
+  }
+  set stopValues (value) {
+    this._stopValues = value
+  }
   /** Metod som skapar object av typen Player
    * @method activatePlayers()
    * @returns {thisplayers} array med element av typen Player
    * */
   activatePlayers () {
     for (let i = 0; i < this.players.length; i++) {
-      this.players[i] = new Player(this.players[i])
+      this.players[i] = new Player(this.players[i], this.stopValues[i])
     }
     return this.players
   }
@@ -82,11 +89,11 @@ class Table {
       let playersWaitingForDealer = []
       let playersHandvalue = []
       let currentCard = []
-      // fyller i arrayen "currentCard" med  KOPIOR av objecten somm returneras av metoden takeCard
+      // fyller i arrayen "currentCard" med  KOPIOR av objecten somm returneras av metoden takeCards
       // från modulen "players.js".
       // Detta görs varje gång när while-loopen körs så att spelarna får nya kort
       for (let i = 0; i < this.numberOfPlayers; i++) {
-        currentCard.push(Object.create(this.players[i].takeCard()))
+        currentCard.push(Object.create(this.players[i].takeCards()))
       }
       // fyller i arrayen "playersWaitingForDEaler" med värdena från propertyn "_copyWaitingForDealer"
       // av objekten som finns i arrayen "currenCard"
@@ -133,7 +140,7 @@ class Table {
       // från modulen "dealer.js".
       // Detta görs varje gång när while-loopen körs så att dealern får nya kort
         let currentCardDealer = []
-        currentCardDealer.push(Object.create(this.dealer.takeCard()))
+        currentCardDealer.push(Object.create(this.dealer.takeCards()))
         resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
         resultTable.push('2.NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
         resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
