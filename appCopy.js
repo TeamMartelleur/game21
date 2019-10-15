@@ -13,13 +13,13 @@
  * Importerar modulerna Player och Dealer
  * @module Player beskriver en spelare i spelet 21
  */
-const Player = require('./src/players.js')
+const Player = require('./src/playersCopy.js')
 
 /**
  * Importerar modulerna Player och Dealer
  * @module Dealer beskriver en dealer i spelet 21
  */
-const Dealer = require('./src/dealer.js')
+const Dealer = require('./src/dealerCopy.js')
 
 /**
  * skapar en class "Table" där man kan spela spelet 21
@@ -74,6 +74,7 @@ class Table {
    * @returns {resultTable[]} som beskriver resultatet av spelet
    * */
   roundOfPlays (number = 10) {
+    this.activatePlayers()
     let winingHandsPlayer = []
     let losingHandsPlayer = []
     for (let i = 0; i < this.numberOfPlayers; i++) {
@@ -180,8 +181,8 @@ class Table {
  * Skapar ett nytt object "Table" med namn "table1"
  * och skapar objects "Player" med metoden "playerOnTable"
  */
-let table1 = new Table(['joel', 'Christoffer', 'anders'])
-table1.activatePlayers()
+let table1 = new Table()
+// table1.activatePlayers()
 console.log(table1)
 console.log(table1.roundOfPlays(5))
 console.log(table1)

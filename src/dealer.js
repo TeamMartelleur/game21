@@ -21,49 +21,8 @@ class Dealer {
     this._winingHands = 0
     this._losingHands = 0
   }
-  get name () {
-    return this._name
-  }
-  set name (playerName) {
-    if (typeof playerName !== 'string') {
-      return 'Name must be typeof string'
-    } else {
-      return playerName
-    }
-  }
-  get handValue () {
-    return this._handValue
-  }
-  set handValue (value) {
-    this._handValue = value
-  }
-  get stopValue () {
-    return this._stopValue
-  }
-  set stopValue (value) {
-    this._stopValue = value
-  }
-  get hand () {
-    return this._hand
-  }
-  set hand (value) {
-    this._hand = value
-  }
-  get winingHands () {
-    return this._winingHands
-  }
-  set winingHands (value) {
-    this._winingHands = value
-  }
-  get losingHands () {
-    return this._losingHands
-  }
-  set losingHands (value) {
-    this._losingHands = value
-  }
-
   /**
-   * metod som använder modulen "cardDeck.js" ocr returnerar ett object med data till spelet 21
+   * metod som använder modulen "cardDeck.js" och returnerar ett object med data till spelet 21
    * @method takeCard() stoppar handen
    * @returns {valuesCard}
    */
@@ -71,8 +30,8 @@ class Dealer {
     // skapar ett objekt ,"valuesCard", som ska returneras i slutet av funktionen
     let valuesCard = {
       _reset: false,
-      _copyHand: this.hand.slice(),
-      _copyHandValue: this.handValue
+      _copyHand: this._hand.slice(),
+      _copyHandValue: this._handValue
     }
     // Skapar en while-loop som kommer iterera tills handen är färdigspelad, "valuesCard._reset === false".
     while (valuesCard._reset === false) {
@@ -188,7 +147,7 @@ class Dealer {
         }
         console.log(valuesCard._copyHand)
         // Kontrollflöde som betämer om vi ska vara kvar i While-loopen "while (reset === false)"
-        if (this.handValue === 21) {
+        if (this._handValue === 21) {
           valuesCard._reset = true
         } else if (valuesCard._copyHandValue < 21) {
           valuesCard._reset = false
