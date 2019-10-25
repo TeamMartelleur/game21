@@ -10,6 +10,7 @@
  * @author Joel Martelleur
 */
 
+// importerar classen Table samt modulen testFunktioner
 const Table = require('./src/Table')
 const testFunktioner = require('./src/testFunktioner')
 
@@ -19,20 +20,20 @@ const testFunktioner = require('./src/testFunktioner')
 const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18], rounds = 5) => {
   testFunktioner.testFunction1(stopValues)
   testFunktioner.testFunction2(players)
+  testFunktioner.testFunction3(rounds)
 
+  // skapar ett objekt Table där spelet 21 kan spelas
   const table1 = new Table(players, stopValues)
 
+  // skriver ut resultatet för spelet 21
   console.log(table1.roundOfPlays(rounds))
 }
 
-// Anropar game on med en try catch sats
+// Anropar game on med en try and catch sats
 try {
-  // gameOn()
-  gameOn(['Joel', 'anita', 'erik'], [19, 15, 13])
-  /**
-  * Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
-  * Sedan avslutas det
-  * */
+  gameOn(['Joel', 'anita', 'erik'], [19, 15, 13], 10)
+
+  // Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
   const readline = require('readline')
 
   const rl = readline.createInterface({
