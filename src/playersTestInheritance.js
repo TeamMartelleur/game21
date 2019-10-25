@@ -89,7 +89,7 @@ class Player {
           valuesCard._copyHandValue += 12
         } else if (cardDeck.cards[randomNumber][0] === 'K') {
           valuesCard._copyHandValue += 13
-        // Om kortet är ett A så betämms värdet till 14 men kan ändras senare
+        // Om kortet är ett A så betämms värdet tii 14 men kan ändras senare
         } else {
           valuesCard._copyHandValue += 14
           let map = valuesCard._copyHand.map(element => {
@@ -107,7 +107,7 @@ class Player {
           })
           valuesCard._copyHand = map
         }
-        // skapar en serie av kontrollflöden som kan ändra värdena på essen om
+        // skapae en serie av kontrollflöden som kan ändra värdena på essen om
         // spelaren är "busted"
         if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AS(value=14)')) {
           valuesCard._copyHandValue += -13

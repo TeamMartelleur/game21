@@ -13,11 +13,11 @@ const cardDeck = require('./cardDeck.js')
  * @classdesc Dealer är en class som beskriver en dealer i spelet 21
  */
 class Dealer {
-  constructor (name) {
+  constructor (name, stopValue = 15) {
     this._name = name
     this._hand = []
     this._handValue = 0
-    this._stopValue = 15
+    this._stopValue = stopValue
     this._winingHands = 0
     this._losingHands = 0
   }
@@ -99,7 +99,7 @@ class Dealer {
           })
           valuesCard._copyHand = map
         }
-        // skapae en serie av kontrollflöden som kan ändra värdena på essen om
+        // skapar en serie av kontrollflöden som kan ändra värdena på essen om
         // spelaren är "busted"
         if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AS(value=14)')) {
           valuesCard._copyHandValue += -13
@@ -123,6 +123,8 @@ class Dealer {
           })
           valuesCard._copyHand = map
         }
+        // skapar en serie av kontrollflöden som kan ändra värdena på essen om
+        // spelaren är "busted"
         if (valuesCard._copyHandValue > 21 && valuesCard._copyHand.includes('AD(value=14)')) {
           valuesCard._copyHandValue += -13
           let map = valuesCard._copyHand.map(element => {
