@@ -35,6 +35,7 @@ class Table {
     for (let i = 0; i < this._players.length; i++) {
       this._players[i] = new Player(this._players[i], this._stopValues[i])
     }
+
     return this._players
   }
 
@@ -47,14 +48,17 @@ class Table {
     this.activatePlayers()
     let winingHandsPlayer = []
     let losingHandsPlayer = []
+
     for (let i = 0; i < this._numberOfPlayers; i++) {
       winingHandsPlayer.push(this._players[i]._winingHands)
       losingHandsPlayer.push(this._players[i]._winingHands)
     }
+
     let winingHandsDealer = this._dealer._winingHands
     let losingHandsDealer = this._dealer._losingHands
     let currentRound = this._round
     let resultTable = []
+
     // itererar så länge currentRound är mindre än number + 1
     while (currentRound < (number + 1)) {
       let playersWaitingForDealer = []

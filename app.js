@@ -19,6 +19,7 @@ function testFunction1 (numbers) {
   if (!Array.isArray(numbers)) {
     throw new TypeError('The passed argument is not an array.')
   }
+
   for (let i = 0; i < numbers.length; i++) {
     if (numbers[i] < 1 || numbers[i] > 21 || !Number.isInteger(numbers[i])) {
       throw new TypeError('The passed argument must be an array with integer element between 1-21.')
@@ -33,6 +34,7 @@ function testFunction2 (names) {
   if (!Array.isArray(names)) {
     throw new TypeError('The passed argument is not an array.')
   }
+
   if (!names.every(element => typeof element === 'string')) {
     throw new TypeError('The passed array must only contain elements of type string.')
   }
@@ -44,29 +46,35 @@ function testFunction2 (names) {
 const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18]) => {
   testFunction1(stopValues)
   testFunction2(players)
+
   const table1 = new Table(players, stopValues)
-  // table1.activatePlayers()
+
   console.log(table1)
   console.log(table1.roundOfPlays(5))
   console.log(table1)
 }
-gameOn()
-// gameOn(['Joel', 'anders', 'erik'], [19, 14, 13])
 
-/**
- * Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
- * Sedan avslutas det
- * */
-const readline = require('readline')
+// Anropar game on med en try catch sats
+try {
+  // gameOn()
+  gameOn(['Joel', 'anita', 'erik'], [19, 3.4, 13])
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
+  /**
+  * Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
+  * Sedan avslutas det
+  * */
+  const readline = require('readline')
 
-rl.question('What do you think about the game? ', (answer) => {
-  // TODO: Log the answer in a database
-  console.log(`Your answer: ${answer}.`)
-  console.log(`Thank you for your valuable feedback!`)
-  rl.close()
-})
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+
+  rl.question('What do you think about the game? ', (answer) => {
+    console.log(`Your answer: ${answer}.`)
+    console.log(`Thank you for your valuable feedback!`)
+    rl.close()
+  })
+} catch (e) {
+  console.error(e.message)
+}
