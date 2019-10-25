@@ -1,10 +1,6 @@
 // Problem som måste lösas
 // 1. Ska "ess" ska kunna byta värde från på fler sätt än 14 till 1
 // 2. ska jag slå ihop modulerna dealer och player?
-// 3. kan jag få spelet att returner för varje kort?
-// 4. Tydligare resultat
-// const cardDeck = require('./src/cardDeck.js')
-// ska felmeddelanden skrivas in om argumenten inte är av enarray string typ
 
 /**
  * @author Joel Martelleur
@@ -25,14 +21,17 @@ const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 1
   // skapar ett objekt Table där spelet 21 kan spelas
   const table1 = new Table(players, stopValues)
 
-  // skriver ut resultatet för spelet 21
-  console.log(table1.roundOfPlays(rounds))
+  // spelar spelet 21
+  let result = table1.roundOfPlays(rounds)
+
+  // returnerar resultatet för spelet 21
+  return result
 }
 
 // Anropar game on med en try and catch sats
 try {
-  gameOn(['Joel', 'anita', 'erik'], [19, 15, 13], 10)
-
+  let spelet21 = gameOn(['Joel', 'anita', 'erik'], [21, 21, 21], 3)
+  console.log(spelet21)
   // Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
   const readline = require('readline')
 

@@ -98,13 +98,9 @@ class Table {
             losingHandsPlayer[i]++
             winingHandsDealer++
           }
-          // return {
-          //   player1: `1. Name of player: ${this.players[i].name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`,
-          //   dealer1: `1. Name of dealer: ${this.dealer.name}. No cards on table. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`
-          // }
-          resultTable.push(`1. Name of player: ${this._players[i]._name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
+          resultTable.push(`1. Name of player: ${this._players[i]._name}. Stopvalue: ${this._players[i]._stopValue}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
         }
-        resultTable.push(`1. Name of dealer: ${this._dealer._name}. No cards on table. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
+        resultTable.push(`1. Name of dealer: ${this._dealer._name}. Stopvalue: ${this._dealer._stopValue}. No cards on table. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
         // Ökar "currentRound" med 1 för att sedan börja om while-loopen.
         currentRound++
       // Om alla elemnt i "playersWaitingForDealer" INTE är === "false"
@@ -141,9 +137,9 @@ class Table {
               winingHandsDealer++
             }
           }
-          resultTable.push(`2. Name of player: ${this._players[i]._name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
+          resultTable.push(`2. Name of player: ${this._players[i]._name}. Stopvalue: ${this._players[i]._stopValue}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
         }
-        resultTable.push(`2. Name of dealer: ${this._dealer._name}. Cards on table: ${currentCardDealer[0]._copyHand}. Value of cards: ${currentCardDealer[0]._copyHandValue}. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
+        resultTable.push(`2. Name of dealer: ${this._dealer._name}. Stopvalue: ${this._dealer._stopValue}. Cards on table: ${currentCardDealer[0]._copyHand}. Value of cards: ${currentCardDealer[0]._copyHandValue}. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
         currentRound++
       }
     }
