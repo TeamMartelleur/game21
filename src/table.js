@@ -84,10 +84,10 @@ class Table {
       // så skrivs resultatet ut föra att sedan starta en ny runda i while-loopen
       if (playersWaitingForDealer.every(element => element === false)) {
         // Skriver ut resultatet för handen
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push('1.NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push(`1. RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}`)
+        resultTable.push('-------------------------------------------------------------------------------------------------------------------------------------------')
+        resultTable.push('NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
+        resultTable.push('-------------------------------------------------------------------------------------------------------------------------------------------')
+        resultTable.push(`RESULT ROUND: ${currentRound}. Dealer not in action.`)
         // sakpar ett object som jag sedan fyller i med reultat från spelare och dalern från
         // den specifika rundan.
         for (let i = 0; i < this._numberOfPlayers; i++) {
@@ -98,9 +98,9 @@ class Table {
             losingHandsPlayer[i]++
             winingHandsDealer++
           }
-          resultTable.push(`1. Name of player: ${this._players[i]._name}. Stopvalue: ${this._players[i]._stopValue}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
+          resultTable.push(`1. Name of player: ${this._players[i]._name}. Stopvalue: ${this._players[i]._stopValue}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}/${currentRound}. Losing hands: ${losingHandsPlayer[i]}/${currentRound}`)
         }
-        resultTable.push(`1. Name of dealer: ${this._dealer._name}. Stopvalue: ${this._dealer._stopValue}. No cards on table. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
+        resultTable.push(`1. Name of dealer: ${this._dealer._name}. Stopvalue: ${this._dealer._stopValue}. No cards on table. Wining hands: ${winingHandsDealer}/${currentRound * this._numberOfPlayers}. Losing hands: ${losingHandsDealer}/${currentRound * this._numberOfPlayers}`)
         // Ökar "currentRound" med 1 för att sedan börja om while-loopen.
         currentRound++
       // Om alla elemnt i "playersWaitingForDealer" INTE är === "false"
@@ -112,10 +112,10 @@ class Table {
       // Detta görs varje gång när while-loopen körs så att dealern får nya kort
         let currentCardDealer = []
         currentCardDealer.push(Object.create(this._dealer.takeCards()))
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push('2.NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push(`2. RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}`)
+        resultTable.push('-------------------------------------------------------------------------------------------------------------------------------------------')
+        resultTable.push('NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
+        resultTable.push('-------------------------------------------------------------------------------------------------------------------------------------------')
+        resultTable.push(`RESULT ROUND: ${currentRound}. Dealer in action.`)
         for (let i = 0; i < this._numberOfPlayers; i++) {
           if (currentCard[i]._copyWaitingForDealer === true) {
             if (currentCardDealer[0]._copyHandValue > 21) {
@@ -137,9 +137,9 @@ class Table {
               winingHandsDealer++
             }
           }
-          resultTable.push(`2. Name of player: ${this._players[i]._name}. Stopvalue: ${this._players[i]._stopValue}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
+          resultTable.push(`Name of player: ${this._players[i]._name}. Stopvalue: ${this._players[i]._stopValue}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}/${currentRound}. Losing hands: ${losingHandsPlayer[i]}/${currentRound}`)
         }
-        resultTable.push(`2. Name of dealer: ${this._dealer._name}. Stopvalue: ${this._dealer._stopValue}. Cards on table: ${currentCardDealer[0]._copyHand}. Value of cards: ${currentCardDealer[0]._copyHandValue}. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
+        resultTable.push(`Name of dealer: ${this._dealer._name}. Stopvalue: ${this._dealer._stopValue}. Cards on table: ${currentCardDealer[0]._copyHand}. Value of cards: ${currentCardDealer[0]._copyHandValue}. Wining hands: ${winingHandsDealer}/${currentRound * this._numberOfPlayers}. Losing hands: ${losingHandsDealer}/${currentRound * this._numberOfPlayers}`)
         currentRound++
       }
     }
