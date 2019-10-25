@@ -19,7 +19,7 @@ const Dealer = require('./dealer')
  * @classdesc beskriver ett bord där man spelar spelet 21
  */
 class Table {
-  constructor (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18]) {
+  constructor (players, stopValues) {
     this._players = players
     this._stopValues = stopValues
     this._numberOfPlayers = this._players.length

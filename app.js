@@ -41,7 +41,7 @@ function testFunction2 (names) {
 /**
  * @function gameOn
 */
-const gameOn = (players, stopValues) => {
+const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18]) => {
   testFunction1(stopValues)
   testFunction2(players)
   const table1 = new Table(players, stopValues)
@@ -50,8 +50,8 @@ const gameOn = (players, stopValues) => {
   console.log(table1.roundOfPlays(5))
   console.log(table1)
 }
-
-gameOn(['Joel', 'anders', 'erik'], [19, 14, 13])
+gameOn()
+// gameOn(['Joel', 'anders', 'erik'], [19, 14, 13])
 
 /**
  * Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
