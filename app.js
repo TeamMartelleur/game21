@@ -12,6 +12,11 @@ const testFunktioner = require('./src/testFunktioner')
 
 /**
  * @function gameOn
+ * @param {string[]} players - an array with names
+ * @param {numbers[]} stopValues - an array with numbers between 1-21
+ * @param {number} rounds - a number between 1-10
+ * @throws {TypeError}
+ * @returns {result}
 */
 const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18], rounds = 5) => {
   testFunktioner.testFunction1(stopValues)
@@ -29,7 +34,10 @@ const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 1
   return result
 }
 
-// Anropar gameOn med en try and catch sats
+/**
+ * @Statement try..catch
+ * @Description Anropar gameOn med en try and catch statement
+ * */
 try {
   let spelet21 = gameOn(['Joel', 'Erik', 'Sofia'], [12, 15, 19], 3)
   console.log(spelet21)

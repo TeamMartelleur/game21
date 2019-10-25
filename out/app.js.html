@@ -29,201 +29,62 @@
             <pre class="prettyprint source linenums"><code>// Problem som måste lösas
 // 1. Ska "ess" ska kunna byta värde från på fler sätt än 14 till 1
 // 2. ska jag slå ihop modulerna dealer och player?
-// 3. kan jag få spelet att returner för varje kort?
-// 4. Tydligare resultat
-// const cardDeck = require('./src/cardDeck.js')
 
 /**
  * @author Joel Martelleur
- * /
+*/
+
+// importerar classen Table samt modulen testFunktioner
+const Table = require('./src/Table')
+const testFunktioner = require('./src/testFunktioner')
 
 /**
- * Importerar modulerna Player och Dealer
- * @module Player beskriver en spelare i spelet 21
- */
-const Player = require('./src/players.js')
+ * @function gameOn
+ * @param {string[]} players - an array with names
+ * @param {numbers[]} stopValues - an array with numbers between 1-21
+ * @param {number} rounds - a number between 1-10
+ * @throws {TypeError}
+ * @returns {result}
+*/
+const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18], rounds = 5) => {
+  testFunktioner.testFunction1(stopValues)
+  testFunktioner.testFunction2(players)
+  testFunktioner.testFunction3(rounds)
+  testFunktioner.testFunction4(players, stopValues)
 
-/**
- * Importerar modulerna Player och Dealer
- * @module Dealer beskriver en dealer i spelet 21
- */
-const Dealer = require('./src/dealer.js')
+  // skapar ett objekt Table där spelet 21 kan spelas
+  const table1 = new Table(players, stopValues)
 
-/**
- * skapar en class "Table" där man kan spela spelet 21
- * @classdesc beskriver ett bord där man spelar spelet 21
- */
-class Table {
-  constructor (names) {
-    this._players = names
-    this._numberOfPlayers = this._players.length
-    this._dealer = new Dealer('Devil')
-    this._round = 1
-  }
-  get dealer () {
-    return this._dealer
-  }
-  set dealer (value) {
-    this._dealer = value
-  }
-  get players () {
-    return this._players
-  }
-  set players (value) {
-    this._players = value
-  }
-  get numberOfPlayers () {
-    return this._numberOfPlayers
-  }
-  set numberOfPlayers (value) {
-    this._numberOfPlayers = value
-  }
-  /** Metod som skapar object av typen Player
-   * @method activatePlayers()
-   * @returns {thisplayers} array med element av typen Player
-   * */
-  activatePlayers () {
-    for (let i = 0; i &lt; this.players.length; i++) {
-      this.players[i] = new Player(this.players[i])
-    }
-    return this.players
-  }
+  // spelar spelet 21
+  let result = table1.roundOfPlays(rounds)
 
-  /** Metod som delar ut korten i ett bestämt antal runder
-   * @method roundOfPlays(number=10)
-   * @param number en integer som bestämer hur många rundor som spelas
-   * @returns {resultTable[]} som beskriver resultatet av spelet
-   * */
-  roundOfPlays (number = 10) {
-    let winingHandsPlayer = []
-    let losingHandsPlayer = []
-    for (let i = 0; i &lt; this.numberOfPlayers; i++) {
-      winingHandsPlayer.push(this.players[i].winingHands)
-      losingHandsPlayer.push(this.players[i].winingHands)
-    }
-    let winingHandsDealer = this.dealer.winingHands
-    let losingHandsDealer = this.dealer.losingHands
-    let currentRound = this._round
-    let resultTable = []
-    // itererar så länge currentRound är mindre än number + 1
-    while (currentRound &lt; (number + 1)) {
-      let playersWaitingForDealer = []
-      let playersHandvalue = []
-      let currentCard = []
-      // fyller i arrayen "currentCard" med  KOPIOR av objecten somm returneras av metoden takeCard
-      // från modulen "players.js".
-      // Detta görs varje gång när while-loopen körs så att spelarna får nya kort
-      for (let i = 0; i &lt; this.numberOfPlayers; i++) {
-        currentCard.push(Object.create(this.players[i].takeCard()))
-      }
-      // fyller i arrayen "playersWaitingForDEaler" med värdena från propertyn "_copyWaitingForDealer"
-      // av objekten som finns i arrayen "currenCard"
-      for (let i = 0; i &lt; this.numberOfPlayers; i++) {
-        playersWaitingForDealer.push(currentCard[i]._copyWaitingForDealer)
-      }
-      // fyller i arrayen "playersWaitingForDEaler" med värdena från propertyn "_copyHand"
-      // av objekten som finns i arrayen "currenCard"
-      for (let i = 0; i &lt; this.numberOfPlayers; i++) {
-        playersHandvalue.push(currentCard[i]._copyHandValue)
-      }
-      // Om alla element i "playersWaitingForDealer" är === "false"
-      // så skrivs resultatet ut föra att sedan starta en ny runda i while-loopen
-      if (playersWaitingForDealer.every(element => element === false)) {
-        // Skriver ut resultatet för handen
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push('1.NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push(`1. RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}`)
-        // sakpar ett object som jag sedan fyller i med reultat från spelare och dalern från
-        // den specifika rundan.
-        for (let i = 0; i &lt; this.numberOfPlayers; i++) {
-          if (currentCard[i]._copyHandValue &lt;= 21) {
-            winingHandsPlayer[i]++
-            losingHandsDealer++
-          } else {
-            losingHandsPlayer[i]++
-            winingHandsDealer++
-          }
-          // return {
-          //   player1: `1. Name of player: ${this.players[i].name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`,
-          //   dealer1: `1. Name of dealer: ${this.dealer.name}. No cards on table. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`
-          // }
-          resultTable.push(`1. Name of player: ${this.players[i].name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
-        }
-        resultTable.push(`1. Name of dealer: ${this.dealer.name}. No cards on table. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
-        // Ökar "currentRound" med 1 för att sedan börja om while-loopen.
-        currentRound++
-      // Om alla elemnt i "playersWaitingForDealer" INTE är === "false"
-      // så jämförs dealerns kort med spelarnas kort.
-      // resultaten skrivs ut för att sedan starta en ny runda i while-loopen.
-      } else {
-      // fyller i arrayen "currentCardDealer" med KOPIOR av objectet somm returneras av metoden takeCard
-      // från modulen "dealer.js".
-      // Detta görs varje gång när while-loopen körs så att dealern får nya kort
-        let currentCardDealer = []
-        currentCardDealer.push(Object.create(this.dealer.takeCard()))
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push('2.NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND! NEW HAND!')
-        resultTable.push('---------------------------------------------------------------------------------------------------------------------------------------------')
-        resultTable.push(`2. RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}--------------------------------------------- RESULT ROUND: ${currentRound}`)
-        for (let i = 0; i &lt; this.numberOfPlayers; i++) {
-          if (currentCard[i]._copyWaitingForDealer === true) {
-            if (currentCardDealer[0]._copyHandValue > 21) {
-              winingHandsPlayer[i]++
-              losingHandsDealer++
-            } else if (currentCardDealer[0]._copyHandValue &lt;= 21 &amp;&amp; currentCardDealer[0]._copyHandValue >= currentCard[i]._copyHandValue) {
-              winingHandsDealer++
-              losingHandsPlayer[i]++
-            } else {
-              losingHandsDealer++
-              winingHandsPlayer[i]++
-            }
-          } else {
-            if (currentCard[i]._copyHandValue &lt;= 21) {
-              winingHandsPlayer[i]++
-              losingHandsDealer++
-            } else {
-              losingHandsPlayer[i]++
-              winingHandsDealer++
-            }
-          }
-          resultTable.push(`2. Name of player: ${this.players[i].name}. Cards on table: ${currentCard[i]._copyHand}. Value of cards: ${currentCard[i]._copyHandValue}. Wining hands: ${winingHandsPlayer[i]}. Losing hands: ${losingHandsPlayer[i]}`)
-        }
-        resultTable.push(`2. Name of dealer: ${this.dealer.name}. Cards on table: ${currentCardDealer[0]._copyHand}. Value of cards: ${currentCardDealer[0]._copyHandValue}. Wining hands: ${winingHandsDealer}. Losing hands: ${losingHandsDealer}`)
-        currentRound++
-      }
-    }
-    return resultTable
-  }
+  // returnerar resultatet för spelet 21
+  return result
 }
 
 /**
- * Skapar ett nytt object "Table" med namn "table1"
- * och skapar objects "Player" med metoden "playerOnTable"
- */
-let table1 = new Table(['joel', 'Christoffer', 'anders'])
-table1.activatePlayers()
-console.log(table1)
-console.log(table1.roundOfPlays(5))
-console.log(table1)
-
-/**
- * Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
- * Sedan avslutas det
+ * @Statement try..catch
+ * @Description Anropar gameOn med en try and catch statement
  * */
-const readline = require('readline')
+try {
+  let spelet21 = gameOn(['Joel', 'Erik', 'Sofia'], [12, 15, 19], 3)
+  console.log(spelet21)
+  // Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
+  const readline = require('readline')
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
 
-rl.question('What do you think about the game? ', (answer) => {
-  // TODO: Log the answer in a database
-  console.log(`Your answer: ${answer}.`)
-  console.log(`Thank you for your valuable feedback!`)
-  rl.close()
-})
+  rl.question('What do you think about the game? ', (answer) => {
+    console.log(`Your answer: ${answer}.`)
+    console.log(`Thank you for your valuable feedback!`)
+    rl.close()
+  })
+} catch (e) {
+  console.error(e.message)
+}
 </code></pre>
         </article>
     </section>
@@ -234,13 +95,13 @@ rl.question('What do you think about the game? ', (answer) => {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-cardDeck%25252520beskriver%25252520en%25252520kortlek.html">cardDeck beskriver en kortlek</a></li><li><a href="module-Dealer%2520beskriver%2520en%2520dealer%2520i%2520spelet%252021.html">Dealer beskriver en dealer i spelet 21</a></li><li><a href="module-Player%2520beskriver%2520en%2520spelare%2520i%2520spelet%252021.html">Player beskriver en spelare i spelet 21</a></li></ul><h3>Classes</h3><ul><li><a href="module-cardDeck%2520beskriver%2520en%2520kortlek-Dealer.html">Dealer</a></li><li><a href="module-cardDeck%2520beskriver%2520en%2520kortlek-Player.html">Player</a></li><li><a href="module-Dealer%2520beskriver%2520en%2520dealer%2520i%2520spelet%252021-Table.html">Table</a></li></ul><h3>Global</h3><ul><li><a href="global.html#cardDeck">cardDeck</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#gameOn">gameOn</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sun Oct 06 2019 11:02:31 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.3</a> on Sat Oct 26 2019 01:40:52 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
