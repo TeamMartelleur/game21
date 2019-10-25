@@ -11,54 +11,24 @@
 */
 
 const Table = require('./src/Table')
-
-/**
- * @function testFunction1
-*/
-function testFunction1 (numbers) {
-  if (!Array.isArray(numbers)) {
-    throw new TypeError('The passed argument is not an array.')
-  }
-
-  for (let i = 0; i < numbers.length; i++) {
-    if (numbers[i] < 1 || numbers[i] > 21 || !Number.isInteger(numbers[i])) {
-      throw new TypeError('The passed argument must be an array with integer element between 1-21.')
-    }
-  }
-}
-
-/**
- * @function testFunction2
-*/
-function testFunction2 (names) {
-  if (!Array.isArray(names)) {
-    throw new TypeError('The passed argument is not an array.')
-  }
-
-  if (!names.every(element => typeof element === 'string')) {
-    throw new TypeError('The passed array must only contain elements of type string.')
-  }
-}
+const testFunktioner = require('./src/testFunktioner')
 
 /**
  * @function gameOn
 */
-const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18]) => {
-  testFunction1(stopValues)
-  testFunction2(players)
+const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 16, 18], rounds = 5) => {
+  testFunktioner.testFunction1(stopValues)
+  testFunktioner.testFunction2(players)
 
   const table1 = new Table(players, stopValues)
 
-  console.log(table1)
-  console.log(table1.roundOfPlays(5))
-  console.log(table1)
+  console.log(table1.roundOfPlays(rounds))
 }
 
 // Anropar game on med en try catch sats
 try {
   // gameOn()
-  gameOn(['Joel', 'anita', 'erik'], [19, 3.4, 13])
-
+  gameOn(['Joel', 'anita', 'erik'], [19, 15, 13])
   /**
   * Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
   * Sedan avslutas det

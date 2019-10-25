@@ -147,7 +147,7 @@ class Dealer {
           })
           valuesCard._copyHand = map
         }
-        console.log(valuesCard._copyHand)
+        // console.log(valuesCard._copyHand)
         // Kontrollflöde som betämer om vi ska vara kvar i While-loopen "while (reset === false)"
         if (this._handValue === 21) {
           valuesCard._reset = true
