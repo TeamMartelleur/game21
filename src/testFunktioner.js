@@ -39,6 +39,16 @@ function testFunction3 (rounds) {
   }
 }
 
+/**
+* @function testFunction3
+*/
+function testFunction4 (players, stopValues) {
+  if (players.length !== stopValues.length) {
+    throw new TypeError('The passed array for the parameter players should have the same length as the passed array for the parameter stopValues')
+  }
+}
+
 exports.testFunction1 = testFunction1
 exports.testFunction2 = testFunction2
 exports.testFunction3 = testFunction3
+exports.testFunction4 = testFunction4

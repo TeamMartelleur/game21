@@ -17,6 +17,7 @@ const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 1
   testFunktioner.testFunction1(stopValues)
   testFunktioner.testFunction2(players)
   testFunktioner.testFunction3(rounds)
+  testFunktioner.testFunction4(players, stopValues)
 
   // skapar ett objekt Table där spelet 21 kan spelas
   const table1 = new Table(players, stopValues)
@@ -28,9 +29,9 @@ const gameOn = (players = ['Joel', 'Christoffer', 'Anders'], stopValues = [14, 1
   return result
 }
 
-// Anropar game on med en try and catch sats
+// Anropar gameOn med en try and catch sats
 try {
-  let spelet21 = gameOn(['Joel', 'anita', 'erik'], [21, 21, 21], 3)
+  let spelet21 = gameOn(['Joel', 'Erik', 'Sofia'], [12, 15, 19], 3)
   console.log(spelet21)
   // Laddar ner modulen readline för att fråga spelaren om vad den tyckte om  spelet
   const readline = require('readline')
